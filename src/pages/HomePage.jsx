@@ -7,6 +7,7 @@ import {
   Quote,
   Sofa,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const homes = [
   {
@@ -142,12 +143,12 @@ export default function HomePage() {
               <br />
             </h2>
           </div>
-          <a
+          <Link
             className="mt-[27px] inline-flex shrink-0 items-center gap-[5px] pb-[7px] text-[9px] text-red-600 font-medium transition-all hover:gap-4 sm:mt-0 sm:gap-[11px] sm:text-[19px]"
-            href="#"
+            to="/all-projects"
           >
-            View all project <ArrowRight size={16} />
-          </a>
+            View all projects <ArrowRight size={16} />
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-3 sm:gap-4 lg:gap-6">

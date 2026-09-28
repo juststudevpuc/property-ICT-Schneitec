@@ -6,6 +6,7 @@ import PortfolioPage from "./pages/PortfolioPage";
 import CareerPage from "./pages/CareerPage";
 import MediaPage from "./pages/MediaPage";
 import ContactPage from "./pages/ContactPage";
+import AllProject from "./pages/AllProject";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="career" element={<CareerPage />} />
           <Route path="media" element={<MediaPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="all-projects" element={<AllProject />} />
         </Route>
       </Routes>
     </BrowserRouter>
