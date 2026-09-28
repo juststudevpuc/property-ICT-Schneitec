@@ -1,13 +1,16 @@
 import { FaFacebook, FaLinkedin, FaTelegram } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function HeaderFooter() {
+  const location = useLocation();
   const navItems = [
+    { label: "Home", to: "/" },
     { label: "About Us", to: "/about" },
-    { label: "Portfolio", href: "/portfolio" },
-    { label: "Career", href: "/career" },
-    { label: "Media", href: "#media" },
-    { label: "Contact Us", href: "#contact" },
+    { label: "Portfolio", to: "/portfolio" },
+    { label: "Career", to: "/career" },
+    { label: "Media", to: "/media" },
+    { label: "Contact Us", to: "/contact" },
   ];
   return (
     <div className="flex min-h-screen flex-col bg-[#f5f3ed] font-sans text-[#18392f]">
@@ -39,19 +42,11 @@ export default function HeaderFooter() {
                   "py-1 font-sans text-[11px] font-normal tracking-[0.22em] text-white/70 uppercase transition-colors duration-200 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a8894c]";
 
                 return item.to ? (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    className={className}
-                  >
+                  <Link key={item.label} to={item.to} className={className}>
                     {item.label}
                   </Link>
                 ) : (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className={className}
-                  >
+                  <a key={item.label} href={item.href} className={className}>
                     {item.label}
                   </a>
                 );
@@ -74,8 +69,15 @@ export default function HeaderFooter() {
         </nav>
       </header>
 
-      <div className="flex-1">
-        <Outlet />
+      <div className="flex-grow">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0.96, y: 2 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+        >
+          <Outlet />
+        </motion.div>
       </div>
 
       <footer className="border-t border-[#18392f]/10 bg-white px-5 text-sm sm:px-7">

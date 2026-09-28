@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import CareerPage from "./pages/CareerPage";
+import MediaPage from "./pages/MediaPage";
+import ContactPage from "./pages/ContactPage";
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
           <Route path="about" element={<AboutPage />} />
           <Route path="portfolio" element={<PortfolioPage />} />
           <Route path="career" element={<CareerPage />} />
+          <Route path="media" element={<MediaPage />} />
+          <Route path="contact" element={<ContactPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

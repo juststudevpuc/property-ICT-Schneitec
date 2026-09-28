@@ -120,7 +120,7 @@ export default function PortfolioPage() {
           <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
           <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 py-32 text-center sm:px-7 lg:px-10">
             <h1
-              className="m-0 text-5xl font-thin leading-tight sm:text-6xl lg:text-7xl"
+              className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
               id="about-title"
             >
               Portfolio
@@ -134,7 +134,7 @@ export default function PortfolioPage() {
             {/* Top Row: Title & Category Filters */}
             <div className="mb-12 grid grid-cols-1 items-center gap-6 md:grid-cols-2">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl">
+                <h2 className="text-2xl font-medium tracking-tight text-neutral-900 sm:text-3xl">
                   Our Projects
                 </h2>
               </div>
@@ -197,10 +197,10 @@ export default function PortfolioPage() {
                       {/* Card Footer */}
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <p className="text-[10px] font-bold tracking-[0.14em] text-[#bc2525] uppercase">
+                          <p className="text-[10px] font-medium tracking-[0.14em] text-[#bc2525] uppercase">
                             {project.category}
                           </p>
-                          <h3 className="mt-1 text-lg font-bold text-neutral-900">
+                          <h3 className="mt-1 text-lg font-medium text-neutral-900">
                             {project.title}
                           </h3>
                         </div>
@@ -233,7 +233,7 @@ export default function PortfolioPage() {
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                  className="cursor-pointer border border-neutral-900 bg-transparent px-8 py-3.5 text-[11px] font-bold tracking-[0.15em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
+                  className="cursor-pointer border border-neutral-900 bg-transparent px-8 py-3.5 text-[11px] font-medium tracking-[0.15em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
                 >
                   {hasMoreProjects
                     ? "LOAD MORE PROJECTS"

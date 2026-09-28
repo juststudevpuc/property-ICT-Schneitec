@@ -127,12 +127,12 @@ export default function CareerPage() {
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
         <div className="mx-auto flex w-full max-w-7xl max-h-5 flex-col px-5 py-39 sm:px-7 lg:px-10">
           <h1
-            className="m-0 text-5xl font-thin leading-tight sm:text-6xl lg:text-7xl"
+            className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
             id="about-title"
           >
             Building a future of <br /> living.
           </h1>
-          <span aria-hidden="true" className="font-thin">
+          <span aria-hidden="true" className="font-normal">
             Join our award-winning architectural team and help us shape the
             skylines of tomorrow.
           </span>
@@ -142,7 +142,7 @@ export default function CareerPage() {
       <section className="bg-black px-5 py-20 text-white sm:px-7 sm:py-28 lg:px-10">
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-light tracking-tight text-white sm:text-4xl">
+            <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">
               Application Process
             </h2>
             <p className="mt-3 text-xs text-neutral-400 sm:text-sm">
@@ -158,7 +158,7 @@ export default function CareerPage() {
               >
                 <div className=" flex w-full justify-center border-b border-neutral-800 pb-4">
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-full text-sm font-bold ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-full text-sm font-medium ${
                       step.isHighlighted
                         ? "bg-[#d91b1b] text-white"
                         : "bg-white text-black"
@@ -190,7 +190,7 @@ export default function CareerPage() {
               OUR PHILOSOPHY
             </p>
 
-            <h2 className="text-3xl leading-tight font-light tracking-tight text-neutral-900 sm:text-4xl">
+            <h2 className="text-3xl leading-tight font-medium tracking-tight text-neutral-900 sm:text-4xl">
               A Culture of Conscious Design
             </h2>
 
@@ -210,7 +210,7 @@ export default function CareerPage() {
               </p>
             </div>
 
-            <Button className="mt-8 cursor-pointer rounded-none bg-neutral-900 px-8 py-6 text-xs font-bold tracking-[0.15em] text-white uppercase transition-colors hover:bg-[#bc2525]">
+            <Button className="mt-8 cursor-pointer rounded-none bg-neutral-900 px-8 py-6 text-xs font-medium tracking-[0.15em] text-white uppercase transition-colors hover:bg-[#bc2525]">
               Our Story
             </Button>
           </div>
@@ -274,7 +274,7 @@ export default function CareerPage() {
           {/* Top Row: Title & Search/Filter Controls */}
           <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <h2 className="text-3xl font-light tracking-tight text-neutral-900 sm:text-4xl">
+              <h2 className="text-3xl font-medium tracking-tight text-neutral-900 sm:text-4xl">
                 Open Positions
               </h2>
               <p className="mt-2 text-xs text-neutral-500 sm:text-sm">
@@ -320,7 +320,7 @@ export default function CareerPage() {
                   >
                     {/* Left: Job Title & Metadata */}
                     <div>
-                      <h3 className="text-base font-semibold text-neutral-900 sm:text-lg">
+                      <h3 className="text-base font-medium text-neutral-900 sm:text-lg">
                         {job.title}
                       </h3>
 
@@ -345,7 +345,7 @@ export default function CareerPage() {
                     {/* Right: Apply Now Button */}
                     <a
                       href={job.applyLink}
-                      className="inline-flex w-fit shrink-0 items-center justify-center border border-neutral-800 bg-transparent px-6 py-2.5 text-[10px] font-semibold tracking-[0.14em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
+                      className="inline-flex w-fit shrink-0 items-center justify-center border border-neutral-800 bg-transparent px-6 py-2.5 text-[10px] font-medium tracking-[0.14em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
                     >
                       APPLY NOW
                     </a>

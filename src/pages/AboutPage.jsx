@@ -83,7 +83,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 py-32 text-center sm:px-7 lg:px-10">
           <h1
-            className="m-0 text-5xl font-thin leading-tight sm:text-6xl lg:text-7xl"
+            className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
             id="about-title"
           >
             About Us
@@ -173,14 +173,14 @@ export default function AboutPage() {
               <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#bc2525] uppercase">
                 THE VISIONARIES
               </p>
-              <h2 className="m-0 max-w-md font-sans text-3xl leading-tight font-light tracking-tight text-neutral-900 sm:text-4xl">
+              <h2 className="m-0 max-w-md font-manrope text-3xl leading-tight font-medium tracking-tight text-neutral-900 sm:text-4xl">
                 Lead Architects
               </h2>
             </div>
 
             <a
               href="#team"
-              className="w-fit border-b-2 border-neutral-900 pb-1 text-xs font-bold tracking-[0.12em] text-neutral-900 uppercase transition-colors hover:border-[#bc2525] hover:text-[#bc2525]"
+              className="w-fit border-b-2 border-neutral-900 pb-1 text-xs font-medium tracking-[0.12em] text-neutral-900 uppercase transition-colors hover:border-[#bc2525] hover:text-[#bc2525]"
             >
               MEET THE FULL TEAM
             </a>
@@ -198,7 +198,7 @@ export default function AboutPage() {
                     className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-base font-bold text-neutral-900">
+                <h3 className="text-base font-medium text-neutral-900">
                   {architect.name}
                 </h3>
                 <p className="mt-0.5 text-xs text-neutral-500">
@@ -224,7 +224,7 @@ export default function AboutPage() {
                   className="h-6 w-6 text-neutral-500"
                   strokeWidth={1.75}
                 />
-                <span className="text-[10px] font-bold tracking-[0.14em] text-neutral-500 uppercase">
+                <span className="text-[10px] font-medium tracking-[0.14em] text-neutral-500 uppercase">
                   {award.title}
                 </span>
               </div>
