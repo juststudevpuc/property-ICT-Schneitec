@@ -1,39 +1,8 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { newsArticles } from "../lib/newsArticles";
 
 export default function MediaPage() {
-  const NEWS_ARTICLES = [
-    {
-      id: 1,
-      date: "OCTOBER 14, 2023",
-      title: "LEGO Announces Completion of the Nordic Glass Pavilion",
-      excerpt:
-        "Our latest project in Copenhagen redefines the boundaries between indoor living and the natural world...",
-      image:
-        "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
-      link: "#news-1",
-    },
-    {
-      id: 2,
-      date: "SEPTEMBER 28, 2023",
-      title: "Exploring Verticality: The New Urban Housing Initiative",
-      excerpt:
-        "How we are tackling the challenges of density through modular design and sustainable vertical gardens...",
-      image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-      link: "#news-2",
-    },
-    {
-      id: 3,
-      date: "AUGUST 12, 2023",
-      title: "LEGO Wins Global Design Award for Sustainable Public Spaces",
-      excerpt:
-        "Recognized for our innovative approach to repurposing industrial zones into vibrant community hubs...",
-      image:
-        "https://images.unsplash.com/photo-1629050290461-283e7bd7805f?q=80&w=918&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      link: "#news-3",
-    },
-  ];
-
   const FEATURED_PUBLICATIONS = [
     {
       id: 1,
@@ -123,17 +92,17 @@ export default function MediaPage() {
               </h2>
             </div>
 
-            <a
-              href="#all-news"
+            <Link
+              to="/media/news"
               className="w-fit border-b border-neutral-900 pb-1 text-[11px] font-medium tracking-[0.12em] text-neutral-900 uppercase transition-colors hover:border-[#bc2525] hover:text-[#bc2525]"
             >
               VIEW ALL NEWS
-            </a>
+            </Link>
           </div>
 
           {/* 3-Column News Articles Grid */}
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
-            {NEWS_ARTICLES.map((article) => (
+            {newsArticles.slice(0, 3).map((article) => (
               <article key={article.id} className="group flex flex-col">
                 <a
                   href={article.link}

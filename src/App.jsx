@@ -7,6 +7,8 @@ import CareerPage from "./pages/CareerPage";
 import MediaPage from "./pages/MediaPage";
 import ContactPage from "./pages/ContactPage";
 import AllProject from "./pages/AllProject";
+import ProjectDetailPage from "./pages/ProjectDetailPage";
+import NewsArchivePage from "./pages/NewsArchivePage";
 
 export default function App() {
   return (
@@ -18,8 +20,10 @@ export default function App() {
           <Route path="portfolio" element={<PortfolioPage />} />
           <Route path="career" element={<CareerPage />} />
           <Route path="media" element={<MediaPage />} />
+          <Route path="media/news" element={<NewsArchivePage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="all-projects" element={<AllProject />} />
+          <Route path="projects/:projectId" element={<ProjectDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
