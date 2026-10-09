@@ -56,7 +56,7 @@ export default function MediaPage() {
       {/* header */}
       <section
         aria-labelledby="about-title"
-        className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#283c32] text-white"
+        className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#283c32] text-white"
       >
         <img
           src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -64,15 +64,15 @@ export default function MediaPage() {
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
-        <div className="mx-auto flex w-full max-w-7xl max-h-5 flex-col px-5 py-39 sm:px-7 lg:px-10">
+        <div className="mx-auto flex w-full max-w-7xl flex-col px-5 py-32 sm:px-7 sm:py-40 lg:px-10">
           <h1
-            className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
+            className="m-0 max-w-4xl text-[clamp(2.5rem,10vw,4.5rem)] font-medium leading-tight"
             id="about-title"
           >
             Shipping Tomorrow's <br /> Architectural Landscape.
           </h1>
           <span aria-hidden="true" className="font-normal">
-            A glimpse into the latest developments, insights, and media <br />
+            A glimpse into the latest developments, insights, and media{" "}
             milestones from LEGO Architectural Studio.
           </span>
         </div>

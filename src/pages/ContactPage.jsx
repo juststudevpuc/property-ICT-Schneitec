@@ -26,7 +26,7 @@ export default function ContactPage() {
       {/* Hero Banner Section */}
       <section
         aria-labelledby="contact-title"
-        className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#283c32] text-white"
+        className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#283c32] text-white"
       >
         <img
           src="https://images.unsplash.com/photo-1761403775270-19de21f39faa?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -36,7 +36,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 py-32 text-center sm:px-7 lg:px-10">
           <h1
-            className="m-0 text-5xl leading-tight font-medium sm:text-6xl lg:text-7xl"
+            className="m-0 text-[clamp(2.5rem,10vw,4.5rem)] leading-tight font-medium"
             id="contact-title"
           >
             Contact Us
@@ -104,7 +104,7 @@ export default function ContactPage() {
                       key={social.id}
                       href={social.href}
                       aria-label={social.label}
-                      className="text-sm text-neutral-800 transition-colors hover:text-[#bc2525]"
+                      className="grid size-11 place-items-center text-sm text-neutral-800 transition-colors hover:text-[#bc2525]"
                     >
                       <IconComponent className="h-4 w-4" />
                     </a>

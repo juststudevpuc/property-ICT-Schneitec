@@ -77,7 +77,7 @@ export default function HomePage() {
   return (
     <main className="overflow-hidden bg-[#f5f3ed] font-sans text-[#18392f]">
       <section
-        className="relative isolate flex min-h-screen w-full flex-col justify-center overflow-hidden bg-[#283c32] text-[#fffefa]"
+        className="relative isolate flex min-h-dvh w-full flex-col justify-center overflow-hidden bg-[#283c32] text-[#fffefa]"
         aria-labelledby="hero-title"
       >
         <video
@@ -110,7 +110,7 @@ export default function HomePage() {
             modular and innovation design framework that redefine urban living.
           </p>
           <a
-            className="mt-[22px] inline-flex items-center gap-3 bg-[#de461c] px-[18px] py-[10px] text-[20px] font-normal text-[#fffefa] transition hover:-translate-y-0.5 hover:bg-[#bd2904] sm:mt-[31px]"
+            className="mt-[22px] inline-flex min-h-12 items-center gap-3 bg-[#de461c] px-4 py-2 text-base font-normal text-[#fffefa] transition hover:-translate-y-0.5 hover:bg-[#bd2904] sm:mt-[31px] sm:px-[18px] sm:text-xl"
             href="#featured-homes"
           >
             <span
@@ -133,7 +133,7 @@ export default function HomePage() {
           <div>
             {/* <p className="m-0 flex items-center gap-[10px] text-[10px] leading-[1.4] font-semibold text-[#777d73] uppercase"><span className="size-[7px] rounded-full bg-[#db7457]" /> A few places to begin</p> */}
             <h2
-              className="mt-[15px] mb-0 font-serif text-[37px] leading-[1.08] font-medium text-[#18392f] sm:text-[47px]"
+              className="mt-[15px] mb-0 font-serif text-[clamp(2rem,8vw,2.9375rem)] leading-[1.08] font-medium text-[#18392f]"
               id="featured-title"
             >
               <span className="inline-block border-b-[5px] border-[#bc2525] pb-1">
@@ -144,14 +144,14 @@ export default function HomePage() {
             </h2>
           </div>
           <Link
-            className="mt-[27px] inline-flex shrink-0 items-center gap-[5px] pb-[7px] text-[9px] text-red-600 font-medium transition-all hover:gap-4 sm:mt-0 sm:gap-[11px] sm:text-[19px]"
-            to="/all-projects"
+            className="mt-0 inline-flex min-h-11 w-fit shrink-0 items-center gap-[5px] pb-[7px] text-xs font-medium text-red-600 transition-all hover:gap-4 sm:mt-0 sm:gap-[11px] sm:text-[19px]"
+            to="/destinations"
           >
             View all projects <ArrowRight size={16} />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 gap-[30px] md:grid-cols-3 md:gap-4 lg:gap-6">
           {homes.map((home, index) => (
             <article className="min-w-0" key={home.name}>
               <a
@@ -243,7 +243,7 @@ export default function HomePage() {
         id="featured-homes"
         aria-labelledby="featured-title"
       >
-        <div className="mb-7 flex items-start justify-between gap-7 sm:mb-[39px] sm:items-end grid grid-cols-2 sm:grid-cols-2">
+        <div className="mb-7 grid grid-cols-1 items-start gap-5 sm:mb-[39px] sm:grid-cols-2 sm:items-end sm:gap-7">
           <div>
             {/* <p className="m-0 flex items-center gap-[10px] text-[10px] leading-[1.4] font-semibold text-[#777d73] uppercase"><span className="size-[7px] rounded-full bg-[#db7457]" /> A few places to begin</p> */}
             <h2
@@ -253,12 +253,12 @@ export default function HomePage() {
               <span className="inline-block text-xl text-red-600 pb-1">
                 Who we are
               </span>
-              <div className="font-medium text-[50px] ">
+              <div className="font-medium text-[clamp(2rem,8vw,3.125rem)]">
                 <p>
                   Shaping the future <br /> through timeless design.{" "}
                 </p>
               </div>
-              <div className="py-5 text-[18px]">
+              <div className="py-5 text-base leading-relaxed sm:text-lg">
                 <p>
                   Since our inception, LEGO Architecture has been at the
                   forefront of global design innovation. We believe that
@@ -267,21 +267,21 @@ export default function HomePage() {
                   environment
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-[30px] font-sans sm:grid-cols-3 sm:gap-4 lg:gap-6">
+              <div className="grid grid-cols-3 gap-3 font-sans sm:gap-4 lg:gap-6">
                 <div className="">
-                  <span className="text-3xl font-medium text-red-500 ">
+                  <span className="text-2xl font-medium text-red-500 sm:text-3xl">
                     25+
                   </span>
                   <p className="text-sm">Years of Excellent </p>
                 </div>
                 <div className="">
-                  <span className="text-3xl font-medium text-red-500 ">
+                  <span className="text-2xl font-medium text-red-500 sm:text-3xl">
                     150+
                   </span>
                   <p className="text-sm">Global Projects </p>
                 </div>
                 <div className="">
-                  <span className="text-3xl font-medium text-red-500 ">12</span>
+                  <span className="text-2xl font-medium text-red-500 sm:text-3xl">12</span>
                   <p className="text-sm">Design Awards </p>
                 </div>
               </div>

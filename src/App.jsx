@@ -6,9 +6,16 @@ import PortfolioPage from "./pages/PortfolioPage";
 import CareerPage from "./pages/CareerPage";
 import MediaPage from "./pages/MediaPage";
 import ContactPage from "./pages/ContactPage";
-import AllProject from "./pages/AllProject";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import NewsArchivePage from "./pages/NewsArchivePage";
+
+// New Pages
+import ExperiencePage from "./pages/ExperiencePage";
+import OffersPage from "./pages/OffersPage";
+import FeedbackPage from "./pages/FeedbackPage";
+import TermsConditionsPage from "./pages/TermsConditionsPage";
+import DestinationsPage from "./pages/DestinationsPage";
+import PortfolioProjectDetailPage from "./pages/PortfolioProjectDetailPage";
 
 export default function App() {
   return (
@@ -22,8 +29,23 @@ export default function App() {
           <Route path="media" element={<MediaPage />} />
           <Route path="media/news" element={<NewsArchivePage />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="all-projects" element={<AllProject />} />
-          <Route path="projects/:projectId" element={<ProjectDetailPage />} />
+
+          {/* Destinations */}
+          <Route path="destinations" element={<DestinationsPage />} />
+          <Route
+            path="destinations/:hotelId"
+            element={<ProjectDetailPage />}
+          />
+          <Route
+            path="projects/:projectId"
+            element={<PortfolioProjectDetailPage />}
+          />
+
+          {/* New Hotel Requirements */}
+          <Route path="experience" element={<ExperiencePage />} />
+          <Route path="offers" element={<OffersPage />} />
+          <Route path="feedback" element={<FeedbackPage />} />
+          <Route path="terms" element={<TermsConditionsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

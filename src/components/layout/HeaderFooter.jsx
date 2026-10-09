@@ -2,7 +2,14 @@ import { FaFacebook, FaLinkedin, FaTelegram } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
+import RouteSEO from "../shared/RouteSEO";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export default function HeaderFooter() {
   const location = useLocation();
@@ -11,8 +18,14 @@ export default function HeaderFooter() {
   const previousScrollY = useRef(0);
   const menuButtonRef = useRef(null);
   const menuPanelRef = useRef(null);
+  const discoverItems = [
+    { label: "Destinations", to: "/destinations" },
+    { label: "Offers", to: "/offers" },
+    { label: "Experiences", to: "/experience" },
+  ];
   const navItems = [
     { label: "Home", to: "/" },
+    { label: "Discover", items: discoverItems },
     { label: "About Us", to: "/about" },
     { label: "Portfolio", to: "/portfolio" },
     { label: "Career", to: "/career" },
@@ -85,24 +98,30 @@ export default function HeaderFooter() {
     menuButtonRef.current?.focus();
   };
 
+  const isCurrentPage = (item) =>
+    location.pathname === item.to ||
+    (item.to !== "/" && location.pathname.startsWith(`${item.to}/`)) ||
+    (item.label === "Portfolio" &&
+      location.pathname.startsWith("/projects/"));
+
   return (
     <div className="flex min-h-screen flex-col bg-[#f5f3ed] font-sans text-[#18392f]">
       <motion.header
         initial={false}
         animate={{ y: isHeaderHidden ? "-110%" : "0%" }}
         transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-x-0 top-0 z-50 bg-linear-to-b from-black/85 via-black/65 to-transparent pt-2 pb-6"
+        className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#18392f]/5 pt-[env(safe-area-inset-top)] text-white shadow-sm backdrop-blur-md"
       >
         <nav
           aria-label="Main navigation"
-          className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between lg:px-10"
+          className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-7 lg:px-10"
         >
           {/* Brand / Monogram Logo */}
           <Link
             to="/"
             className="group flex w-fit items-center gap-4 focus-visible:outline-none"
           >
-            <div className="flex h-10 w-10 items-center justify-center border border-[#a8894c]/60 bg-black/20 backdrop-blur-xs transition-colors group-hover:border-[#d4af37]">
+            <div className="flex size-10 items-center justify-center border border-[#a8894c]/60 bg-black/20 backdrop-blur-xs transition-colors group-hover:border-[#d4af37]">
               <span className="font-serif text-sm font-normal text-[#a8894c] transition-colors group-hover:text-[#d4af37]">
                 H
               </span>
@@ -113,11 +132,43 @@ export default function HeaderFooter() {
           </Link>
 
           {/* Navigation Links + Language Selector */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 sm:justify-end lg:gap-x-9">
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 lg:gap-x-8">
+          <div className="flex items-center gap-3">
+            <div className="hidden flex-wrap items-center gap-x-5 gap-y-2 xl:flex xl:gap-x-8">
               {navItems.map((item) => {
                 const className =
                   "py-1 font-sans text-[11px] font-normal tracking-[0.22em] text-white/70 uppercase transition-colors duration-200 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a8894c]";
+
+                if (item.items) {
+                  const isDiscoverActive = item.items.some(isCurrentPage);
+
+                  return (
+                    <DropdownMenu key={item.label}>
+                      <DropdownMenuTrigger
+                        className={`${className} inline-flex items-center gap-1.5 ${
+                          isDiscoverActive ? "text-white" : ""
+                        }`}
+                        aria-current={isDiscoverActive ? "page" : undefined}
+                      >
+                        {item.label}
+                        <ChevronDown aria-hidden="true" size={13} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align="start"
+                        className="min-w-48 border border-[#a8894c]/30 bg-[#18392f] p-2 text-white"
+                      >
+                        {item.items.map((child) => (
+                          <DropdownMenuItem
+                            key={child.label}
+                            render={<Link to={child.to} />}
+                            className="px-3 py-2 text-xs tracking-[0.12em] text-white/75 uppercase focus:bg-white/10 focus:text-white"
+                          >
+                            {child.label}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  );
+                }
 
                 return item.to ? (
                   <Link key={item.label} to={item.to} className={className}>
@@ -132,7 +183,7 @@ export default function HeaderFooter() {
             </div>
 
             {/* Language Selector */}
-            <div className="flex items-center gap-4">
+            <div className="hidden items-center gap-4 xl:flex">
               <button
                 type="button"
                 className="flex items-center gap-2 text-xs font-normal tracking-[0.12em] text-white/80 uppercase transition-colors hover:text-white"
@@ -141,23 +192,24 @@ export default function HeaderFooter() {
                   src="https://flagcdn.com/w20/us.png"
                   alt="US Flag"
                   className="h-3 w-4.5 object-cover opacity-90"
-                />
-                <span>English</span>
-              </button>
-              <button
-                ref={menuButtonRef}
-                type="button"
-                aria-label={
-                  isMenuOpen ? "Close navigation menu" : "Open navigation menu"
-                }
-                aria-expanded={isMenuOpen}
-                aria-controls="site-navigation-panel"
-                onClick={() => setIsMenuOpen((open) => !open)}
-                className="grid size-10 place-items-center border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-              >
-                {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
-              </button>
+                /                >
+                  <span>English</span>
+                </button>
             </div>
+
+            <button
+              ref={menuButtonRef}
+              type="button"
+              aria-label={
+                isMenuOpen ? "Close navigation menu" : "Open navigation menu"
+              }
+              aria-expanded={isMenuOpen}
+              aria-controls="site-navigation-panel"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              className="grid size-11 place-items-center border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white xl:hidden"
+            >
+              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </nav>
       </motion.header>
@@ -183,7 +235,7 @@ export default function HeaderFooter() {
               exit={{ x: "100%" }}
               transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
               onClick={(event) => event.stopPropagation()}
-              className="ml-auto flex h-full w-full max-w-md flex-col border-l border-[#d6c38a]/25 bg-[#18392f]/20 px-7 pb-8 pt-7 text-white shadow-[0_20px_60px_rgba(0,0,0,0.3)] backdrop-blur-[24px] sm:px-10"
+              className="ml-auto flex h-full w-full flex-col overflow-y-auto border-l border-[#d6c38a]/25 bg-[#18392f]/5 px-5 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.3)] backdrop-blur-[24px] sm:px-10"
             >
               <div className="flex items-center justify-between border-b border-white/15 pb-6">
                 <div>
@@ -201,7 +253,7 @@ export default function HeaderFooter() {
                   type="button"
                   aria-label="Close navigation menu"
                   onClick={closeMenu}
-                  className="grid size-10 place-items-center border border-white/20 text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                  className="grid size-11 place-items-center border border-white/20 text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
                   <X size={18} />
                 </button>
@@ -210,16 +262,53 @@ export default function HeaderFooter() {
               <nav aria-label="Sidebar navigation" className="mt-8">
                 <ul className="m-0 list-none p-0">
                   {navItems.map((item, index) => {
-                    const isCurrentPage = location.pathname === item.to;
+                    if (item.items) {
+                      return (
+                        <li key={item.label} className="border-b border-white/10">
+                          <p className="mb-1 flex items-baseline gap-5 pt-3 font-serif text-2xl text-white sm:text-3xl">
+                            <span className="font-sans text-[10px] text-[#c8ad75]">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            {item.label}
+                          </p>
+                          <ul className="m-0 list-none p-0">
+                            {item.items.map((child) => {
+                              const isChildCurrent = isCurrentPage(child);
+
+                              return (
+                                <li key={child.label}>
+                                  <Link
+                                    to={child.to}
+                                    onClick={closeMenu}
+                                    aria-current={
+                                      isChildCurrent ? "page" : undefined
+                                    }
+                                    className={`block min-h-12 py-3 pl-10 font-serif text-xl transition-colors hover:text-white sm:text-2xl ${
+                                      isChildCurrent
+                                        ? "text-white"
+                                        : "text-white/65"
+                                    }`}
+                                  >
+                                    {child.label}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </li>
+                      );
+                    }
+
+                    const isItemCurrent = isCurrentPage(item);
 
                     return (
                       <li key={item.label} className="border-b border-white/10">
                         <Link
                           to={item.to}
                           onClick={closeMenu}
-                          aria-current={isCurrentPage ? "page" : undefined}
-                          className={`flex items-baseline gap-5 py-4 font-serif text-2xl transition-colors hover:text-white sm:text-3xl ${
-                            isCurrentPage ? "text-white" : "text-white/65"
+                          aria-current={isItemCurrent ? "page" : undefined}
+                          className={`flex min-h-14 items-baseline gap-5 py-4 font-serif text-2xl transition-colors hover:text-white sm:text-3xl ${
+                            isItemCurrent ? "text-white" : "text-white/65"
                           }`}
                         >
                           <span className="font-sans text-[10px] text-[#c8ad75]">
@@ -248,6 +337,7 @@ export default function HeaderFooter() {
       </AnimatePresence>
 
       <div className="flex-grow">
+        <RouteSEO />
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0.96, y: 2 }}
@@ -259,82 +349,156 @@ export default function HeaderFooter() {
       </div>
 
       <footer className="border-t border-[#18392f]/10 bg-white px-5 text-sm sm:px-7">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-9 py-11 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:py-14">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-9 py-11 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:py-16">
+          {/* Column 1: Brand */}
           <div className="max-w-xs">
             <Link
-              className="font-serif text-2xl font-semibold text-red-600"
+              className="font-serif text-2xl font-semibold text-[#18392f] transition-colors hover:text-[#bc2525]"
               to="/"
             >
               Hearth &amp; Home
             </Link>
-            <p className="mt-4 leading-6 text-[#56645b]">
-              Innovative architectural solutions for a better tomorrow. Building
-              legacies through design excellence since 1932.
+            <p className="mt-4 leading-relaxed text-[#56645b]">
+              Curating unparalleled luxury experiences and unforgettable stays
+              across our global destinations. Redefining hospitality since 1994.
             </p>
           </div>
 
+          {/* Column 2: Discover */}
           <div>
-            <h2 className="font-semibold text-[#18392f] text-2xl">Contact</h2>
-            <a
-              className="mt-4 inline-block text-[#56645b] transition-colors hover:text-[#bc2525]"
-              href="mailto:hello@hearthandhome.com"
-            >
-              hello@hearthandhome.com
-            </a>
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-[#18392f] text-2xl">
-              Quick Links
-            </h2>
+            <h2 className="text-lg font-semibold text-[#18392f]">Discover</h2>
             <ul className="mt-4 space-y-3 text-[#56645b]">
               <li>
-                <a
+                <Link
                   className="transition-colors hover:text-[#bc2525]"
-                  href="/#featured-homes"
+                  to="/destinations"
                 >
-                  Projects
-                </a>
+                  Destinations
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   className="transition-colors hover:text-[#bc2525]"
-                  href="/#our-way"
+                  to="/offers"
                 >
-                  Our expertise
-                </a>
+                  Offers &amp; Packages
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="transition-colors hover:text-[#bc2525]"
+                  to="/experience"
+                >
+                  Brand Experiences
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="transition-colors hover:text-[#bc2525]"
+                  to="/about"
+                >
+                  Our Story
+                </Link>
               </li>
             </ul>
           </div>
 
+          {/* Column 3: Legal & Support */}
           <div>
-            <h2 className="font-semibold text-[#18392f] text-2xl">Follow Us</h2>
-            <p className="mt-4 leading-6 text-[#56645b]">
-              For studio updates and recent work, get in touch with our team.
-            </p>
-            <div className="grid grid-cols-3 max-w-[40%] py-3 text-2xl">
-              <a href="" className="text-blue-600 hover:text-blue-700">
+            <h2 className="text-lg font-semibold text-[#18392f]">
+              Support &amp; Legal
+            </h2>
+            <ul className="mt-4 space-y-3 text-[#56645b]">
+              <li>
+                <Link
+                  className="transition-colors hover:text-[#bc2525]"
+                  to="/feedback"
+                >
+                  Guest Feedback
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="transition-colors hover:text-[#bc2525]"
+                  to="/terms"
+                >
+                  Terms &amp; Conditions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="transition-colors hover:text-[#bc2525]"
+                  to="/career"
+                >
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="transition-colors hover:text-[#bc2525]"
+                  to="/media"
+                >
+                  Media &amp; News
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Contact & Follow */}
+          <div>
+            <h2 className="text-lg font-semibold text-[#18392f]">Contact Us</h2>
+            <div className="mt-4 space-y-2 text-[#56645b]">
+              <p>Street 132, Toul Kork, Phnom Penh</p>
+              <a
+                className="block transition-colors hover:text-[#bc2525]"
+                href="mailto:reservations@hearthandhome.com"
+              >
+                reservations@hearthandhome.com
+              </a>
+              <a
+                className="block transition-colors hover:text-[#bc2525]"
+                href="tel:+855966233546"
+              >
+                +855 966 233 546
+              </a>
+            </div>
+
+            <div className="mt-6 flex items-center gap-4 text-xl">
+              <a
+                href="#facebook"
+                className="text-neutral-400 transition-colors hover:text-[#bc2525]"
+              >
                 <FaFacebook />
               </a>
-              <a href="" className="text-blue-600 hover:text-blue-700">
+              <a
+                href="#linkedin"
+                className="text-neutral-400 transition-colors hover:text-[#bc2525]"
+              >
                 <FaLinkedin />
               </a>
-              <a href="" className="text-[#0e8de8] hover:text-blue-700">
+              <a
+                href="#telegram"
+                className="text-neutral-400 transition-colors hover:text-[#bc2525]"
+              >
                 <FaTelegram />
               </a>
             </div>
           </div>
         </div>
 
+        {/* Copyright */}
         <div className="border-t border-[#18392f]/10">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 py-5 text-xs text-[#6b756e] sm:flex-row sm:items-center sm:justify-between">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 py-6 text-xs text-[#6b756e] sm:flex-row sm:items-center sm:justify-between">
             <span>
-              &copy; {new Date().getFullYear()} Hearth &amp; Home. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} Hearth &amp; Home Properties.
+              All rights reserved.
             </span>
-            <a className="transition-colors hover:text-[#bc2525]" href="/#top">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="transition-colors cursor-pointer hover:text-[#bc2525]"
+            >
               Back to top
-            </a>
+            </button>
           </div>
         </div>
       </footer>

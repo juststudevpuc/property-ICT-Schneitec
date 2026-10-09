@@ -45,7 +45,7 @@ export default function PortfolioPage() {
       <div className="">
         <section
           aria-labelledby="about-title"
-          className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#283c32] text-white"
+          className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#283c32] text-white"
         >
           <img
             src="/img/portfolioBanner.png"
@@ -55,7 +55,7 @@ export default function PortfolioPage() {
           <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
           <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 py-32 text-center sm:px-7 lg:px-10">
             <h1
-              className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
+              className="m-0 text-[clamp(2.5rem,10vw,4.5rem)] font-medium leading-tight"
               id="about-title"
             >
               Portfolio
@@ -74,7 +74,7 @@ export default function PortfolioPage() {
                 </h2>
               </div>
 
-              <div className="flex flex-wrap items-center gap-6 md:justify-end">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:justify-end sm:gap-x-6">
                 {CATEGORIES.map((category) => {
                   const isActive = activeCategory === category;
                   return (
@@ -82,7 +82,7 @@ export default function PortfolioPage() {
                       key={category}
                       type="button"
                       onClick={() => handleCategoryChange(category)}
-                      className={`relative cursor-pointer pb-1.5 text-xs transition-colors sm:text-sm ${
+                      className={`relative min-h-11 cursor-pointer px-1 pb-1.5 text-xs transition-colors sm:text-sm ${
                         isActive
                           ? "font-semibold text-neutral-900"
                           : "font-normal text-neutral-500 hover:text-neutral-900"
@@ -130,7 +130,7 @@ export default function PortfolioPage() {
                       </div>
 
                       {/* Card Footer */}
-                      <div className="flex items-start justify-between gap-4">
+                      <div                       className="flex flex-col items-start justify-between gap-2 min-[430px]:flex-row min-[430px]:gap-4">
                         <div>
                           <p className="text-[10px] font-medium tracking-[0.14em] text-[#bc2525] uppercase">
                             {project.category}
@@ -142,7 +142,7 @@ export default function PortfolioPage() {
 
                         <Link
                           to={`/projects/${project.id}`}
-                          className="mt-1 inline-flex shrink-0 items-center gap-1.5 text-xs font-medium text-neutral-800 transition-colors hover:text-[#bc2525]"
+                          className="inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-neutral-800 transition-colors hover:text-[#bc2525]"
                         >
                           <span>View Project</span>
                           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -168,7 +168,7 @@ export default function PortfolioPage() {
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                  className="cursor-pointer border border-neutral-900 bg-transparent px-8 py-3.5 text-[11px] font-medium tracking-[0.15em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
+                  className="min-h-12 w-full cursor-pointer border border-neutral-900 bg-transparent px-5 py-3.5 text-[11px] font-medium tracking-[0.15em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white sm:w-auto sm:px-8"
                 >
                   {hasMoreProjects
                     ? "LOAD MORE PROJECTS"

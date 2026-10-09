@@ -117,7 +117,7 @@ export default function CareerPage() {
       {/* header-banner */}
       <section
         aria-labelledby="about-title"
-        className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#283c32] text-white"
+        className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#283c32] text-white"
       >
         <img
           src="/img/careerBanner.png"
@@ -125,12 +125,12 @@ export default function CareerPage() {
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
-        <div className="mx-auto flex w-full max-w-7xl max-h-5 flex-col px-5 py-39 sm:px-7 lg:px-10">
+        <div className="mx-auto flex w-full max-w-7xl flex-col px-5 py-32 sm:px-7 sm:py-40 lg:px-10">
           <h1
-            className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
+            className="m-0 max-w-3xl text-[clamp(2.5rem,10vw,4.5rem)] font-medium leading-tight"
             id="about-title"
           >
-            Building a future of <br /> living.
+            Building a future of <br className="hidden sm:block" /> living.
           </h1>
           <span aria-hidden="true" className="font-normal">
             Join our award-winning architectural team and help us shape the
@@ -290,14 +290,14 @@ export default function CareerPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search roles..."
                 aria-label="Search roles"
-                className="h-10 w-full rounded-xs border border-neutral-200 bg-white px-3.5 text-xs text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none sm:w-56"
+                className="h-12 w-full rounded-xs border border-neutral-200 bg-white px-3.5 text-base text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none sm:w-56"
               />
 
               <select
                 value={selectedDepartment}
                 onChange={(e) => setSelectedDepartment(e.target.value)}
                 aria-label="Filter by department"
-                className="h-10 w-full cursor-pointer rounded-xs bg-neutral-200/70 px-3.5 text-xs font-medium text-neutral-800 focus:outline-none sm:w-44"
+                className="h-12 w-full cursor-pointer rounded-xs bg-neutral-200/70 px-3.5 text-base font-medium text-neutral-800 focus:outline-none sm:w-44"
               >
                 {DEPARTMENTS.map((dept) => (
                   <option key={dept} value={dept}>
@@ -345,7 +345,7 @@ export default function CareerPage() {
                     {/* Right: Apply Now Button */}
                     <a
                       href={job.applyLink}
-                      className="inline-flex w-fit shrink-0 items-center justify-center border border-neutral-800 bg-transparent px-6 py-2.5 text-[10px] font-medium tracking-[0.14em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
+                      className="inline-flex min-h-12 w-full shrink-0 items-center justify-center border border-neutral-800 bg-transparent px-6 py-2.5 text-[10px] font-medium tracking-[0.14em] text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white sm:w-fit"
                     >
                       APPLY NOW
                     </a>

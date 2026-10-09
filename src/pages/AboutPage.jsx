@@ -73,7 +73,7 @@ export default function AboutPage() {
     <main className="bg-[#f5f3ed] text-[#18392f] ">
       <section
         aria-labelledby="about-title"
-        className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#283c32] text-white"
+        className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#283c32] text-white"
       >
         <img
           src="/img/aboutUsbanner.png"
@@ -83,7 +83,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/70 via-black/35 to-black/10" />
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 py-32 text-center sm:px-7 lg:px-10">
           <h1
-            className="m-0 text-5xl font-medium leading-tight sm:text-6xl lg:text-7xl"
+            className="m-0 text-[clamp(2.5rem,10vw,4.5rem)] font-medium leading-tight"
             id="about-title"
           >
             About Us
@@ -96,7 +96,7 @@ export default function AboutPage() {
         </div>
       </section>
       {/* Body  */}
-      <section className="">
+      <section className="px-5 py-16 sm:px-7 sm:py-20 lg:px-10 lg:py-24">
         <div className="mx-auto grid w-full max-w-7xl items-center gap-10 md:grid-cols-2 lg:gap-16">
           <div className="max-w-xl">
             <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-[#bc2525] uppercase">

@@ -54,7 +54,7 @@ export default function NewsArchivePage() {
                   type="button"
                   aria-pressed={isActive}
                   onClick={() => setActiveCategory(category)}
-                  className={`border-b-2 pb-3 text-sm transition-colors ${
+                  className={`min-h-11 border-b-2 px-1 pb-3 text-sm transition-colors ${
                     isActive
                       ? "border-[#bc2525] font-medium text-[#18392f]"
                       : "border-transparent text-[#777d73] hover:text-[#18392f]"
