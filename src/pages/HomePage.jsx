@@ -8,6 +8,7 @@ import {
   Sofa,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import SEO from "../components/shared/SEO";
 
 const homes = [
   {
@@ -75,7 +76,12 @@ export default function HomePage() {
   // }
 
   return (
-    <main className="overflow-hidden bg-[#f5f3ed] font-sans text-[#18392f]">
+    <>
+      <SEO
+        title="Luxury Hotels & Real Estate"
+        description="Welcome to Schneitec Property. Discover our collection of iconic properties, luxury real estate, and 5-star destinations in Cambodia."
+      />
+      <main className="overflow-hidden bg-[#f5f3ed] font-sans text-[#18392f]">
       <section
         className="relative isolate flex min-h-dvh w-full flex-col justify-center overflow-hidden bg-[#283c32] text-[#fffefa]"
         aria-labelledby="hero-title"
@@ -337,6 +343,7 @@ export default function HomePage() {
       </section>
 
       {/* footer  */}
-    </main>
+      </main>
+    </>
   );
 }
