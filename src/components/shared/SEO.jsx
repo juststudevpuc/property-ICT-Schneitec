@@ -2,17 +2,17 @@ import { Helmet } from 'react-helmet-async';
 
 export default function SEO({ 
   title, 
-  description = "Luxury properties and unforgettable hotel experiences by Hearth & Home.", 
-  url = "https://schneitecproperty.vercel.app/"
+  description = "Schneitec Property offers an exclusive collection of luxury properties, boutique resorts, and unforgettable hotel experiences in Cambodia.", 
+  url = "https://schneitecproperty.vercel.app" 
 }) {
-  const siteTitle = `${title} | Hearth & Home`;
+  // This ensures every page title ends with " | Schneitec Property"
+  const siteTitle = title ? `${title} | Schneitec Property` : "Schneitec Property";
 
   return (
     <Helmet>
       {/* Standard Metadata */}
       <title>{siteTitle}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
 
       {/* OpenGraph / Facebook */}
       <meta property="og:type" content="website" />
