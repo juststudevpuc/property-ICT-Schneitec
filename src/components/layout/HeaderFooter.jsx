@@ -11,6 +11,32 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
+function BrandLogo({ className = "" }) {
+  return (
+    <span className={`flex items-center gap-3 ${className}`}>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 48 48"
+        fill="none"
+        className="size-10 shrink-0 text-[#d4af72]"
+      >
+        <path
+          d="M5 21.5 24 7l19 14.5M10 19v22h28V19M18 41V27h12v14M16 22h.01M32 22h.01"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path d="M5 43h38" stroke="currentColor" strokeWidth="2" />
+      </svg>
+      <span className="font-sans text-sm font-semibold tracking-[-0.03em] text-current sm:text-base">
+        Schneitec
+        <span className="text-[#d4af72]"> Property</span>
+      </span>
+    </span>
+  );
+}
+
 export default function HeaderFooter() {
   const location = useLocation();
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -116,19 +142,12 @@ export default function HeaderFooter() {
           aria-label="Main navigation"
           className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-7 lg:px-10"
         >
-          {/* Brand / Monogram Logo */}
           <Link
             to="/"
-            className="group flex w-fit items-center gap-4 focus-visible:outline-none"
+            aria-label="Schneitec Property home"
+            className="group w-fit text-white transition-colors hover:text-white/80 focus-visible:outline-none"
           >
-            <div className="flex size-10 items-center justify-center border border-[#a8894c]/60 bg-black/20 backdrop-blur-xs transition-colors group-hover:border-[#d4af37]">
-              <span className="font-serif text-sm font-normal text-[#a8894c] transition-colors group-hover:text-[#d4af37]">
-                H
-              </span>
-            </div>
-            <span className="font-sans text-xs font-normal tracking-[0.22em] text-white/85 uppercase transition-colors group-hover:text-white sm:text-sm">
-              Hearth &amp; Home
-            </span>
+            <BrandLogo />
           </Link>
 
           {/* Navigation Links + Language Selector */}
@@ -240,7 +259,7 @@ export default function HeaderFooter() {
               <div className="flex items-center justify-between border-b border-white/15 pb-6">
                 <div>
                   <p className="mb-1 text-[10px] font-medium tracking-[0.2em] text-white/50 uppercase">
-                    Hearth &amp; Home
+                    Schneitec Property
                   </p>
                   <h2
                     id="site-navigation-title"
@@ -353,10 +372,11 @@ export default function HeaderFooter() {
           {/* Column 1: Brand */}
           <div className="max-w-xs">
             <Link
-              className="font-serif text-2xl font-semibold text-[#18392f] transition-colors hover:text-[#bc2525]"
+              aria-label="Schneitec Property home"
+              className="inline-flex text-[#18392f] transition-colors hover:text-[#bc2525]"
               to="/"
             >
-              Hearth &amp; Home
+              <BrandLogo />
             </Link>
             <p className="mt-4 leading-relaxed text-[#56645b]">
               Curating unparalleled luxury experiences and unforgettable stays
@@ -490,7 +510,7 @@ export default function HeaderFooter() {
         <div className="border-t border-[#18392f]/10">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 py-6 text-xs text-[#6b756e] sm:flex-row sm:items-center sm:justify-between">
             <span>
-              &copy; {new Date().getFullYear()} Hearth &amp; Home Properties.
+              &copy; {new Date().getFullYear()} Schneitec Property.
               All rights reserved.
             </span>
             <button

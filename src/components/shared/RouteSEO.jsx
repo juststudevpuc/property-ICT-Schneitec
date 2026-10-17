@@ -9,62 +9,62 @@ const pageMetadata = {
   "/": {
     title: "Luxury Homes & Architectural Design in Cambodia",
     description:
-      "Explore Hearth & Home's Cambodia property collection and architecture-led approach to thoughtful, timeless residential design.",
+      "Explore Schneitec Property's Cambodia property collection and architecture-led approach to thoughtful, timeless residential design.",
   },
   "/about": {
     title: "About Our Property & Architecture Studio",
     description:
-      "Learn about Hearth & Home, our property portfolio, and our approach to considered architecture, sustainable design, and exceptional places.",
+      "Learn about Schneitec Property, our property portfolio, and our approach to considered architecture, sustainable design, and exceptional places.",
   },
   "/portfolio": {
     title: "Residential & Commercial Architecture Portfolio",
     description:
-      "Browse Hearth & Home's architecture portfolio, featuring contemporary residences, commercial buildings, and thoughtfully designed spaces.",
+      "Browse Schneitec Property's architecture portfolio, featuring contemporary residences, commercial buildings, and thoughtfully designed spaces.",
   },
   "/career": {
     title: "Architecture & Property Design Careers",
     description:
-      "Explore career opportunities with Hearth & Home and help shape thoughtful residential, commercial, and community architecture.",
+      "Explore career opportunities with Schneitec Property and help shape thoughtful residential, commercial, and community architecture.",
   },
   "/media": {
     title: "Property, Architecture & Design News",
     description:
-      "Read the latest Hearth & Home property news, architecture insights, studio updates, design awards, and press announcements.",
+      "Read the latest Schneitec Property news, architecture insights, studio updates, design awards, and press announcements.",
   },
   "/media/news": {
     title: "Architecture & Property News Archive",
     description:
-      "Explore Hearth & Home news and perspectives on architecture, residential design, property projects, and sustainable places.",
+      "Explore Schneitec Property news and perspectives on architecture, residential design, property projects, and sustainable places.",
   },
   "/contact": {
-    title: "Contact Hearth & Home Property & Design",
+    title: "Contact Schneitec Property & Design",
     description:
-      "Contact Hearth & Home about our properties, architectural design services, project enquiries, and studio collaborations.",
+      "Contact Schneitec Property about our properties, architectural design services, project enquiries, and studio collaborations.",
   },
   "/destinations": {
     title: "Luxury Property Destinations in Cambodia",
     description:
-      "Explore Hearth & Home properties in Cambodia, including refined city stays and boutique resort destinations designed around local character.",
+      "Explore Schneitec Property destinations in Cambodia, including refined city stays and boutique resort destinations designed around local character.",
   },
   "/experience": {
     title: "Property, Dining & Wellness Experiences",
     description:
-      "Discover signature dining, wellness, and event experiences at Hearth & Home properties, thoughtfully designed for memorable stays.",
+      "Discover signature dining, wellness, and event experiences at Schneitec Property destinations, thoughtfully designed for memorable stays.",
   },
   "/offers": {
     title: "Property Stays & Hotel Offers",
     description:
-      "Find current Hearth & Home stay offers and property packages for a considered escape at our distinctive destinations.",
+      "Find current Schneitec Property stay offers and property packages for a considered escape at our distinctive destinations.",
   },
   "/feedback": {
-    title: "Guest Feedback for Hearth & Home Properties",
+    title: "Guest Feedback for Schneitec Property",
     description:
-      "Share feedback about your Hearth & Home property stay and help us improve our hospitality and guest experience.",
+      "Share feedback about your Schneitec Property stay and help us improve our hospitality and guest experience.",
   },
   "/terms": {
     title: "Property Booking Terms & Conditions",
     description:
-      "Review Hearth & Home terms and conditions for property reservations, booking changes, cancellations, and guest stays.",
+      "Review Schneitec Property terms and conditions for property reservations, booking changes, cancellations, and guest stays.",
   },
 };
 
@@ -90,7 +90,7 @@ function getPageMetadata(pathname) {
     if (project) {
       return {
         title: `${project.title} - ${project.category} Architecture`,
-        description: `${project.overview} Discover the design approach and architectural highlights of this Hearth & Home ${project.category.toLowerCase()} project.`,
+        description: `${project.overview} Discover the design approach and architectural highlights of this Schneitec Property ${project.category.toLowerCase()} project.`,
       };
     }
   }
@@ -98,7 +98,7 @@ function getPageMetadata(pathname) {
   return {
     title: "Property & Architecture Design",
     description:
-      "Discover Hearth & Home properties and architecture, with thoughtful residential design and distinctive places to stay.",
+      "Discover the Schneitec Property portfolio and architecture, with thoughtful residential design and distinctive places to stay.",
   };
 }
 

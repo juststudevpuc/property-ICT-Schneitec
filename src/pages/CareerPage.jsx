@@ -231,7 +231,7 @@ export default function CareerPage() {
         <div className="mx-auto w-full max-w-7xl">
           <div className="mb-10 sm:mb-12">
             <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-[#bc2525] uppercase">
-              At Hearth &amp; Home
+              At Schneitec Property
             </p>
             <h2 className="m-0 font-serif text-3xl font-medium text-[#18392f] sm:text-4xl">
               Benefits &amp; Perks
