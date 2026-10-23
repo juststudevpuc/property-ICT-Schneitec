@@ -1,8 +1,8 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { projects as projectCards } from "../lib/projects";
+import { fetchProjects } from "../lib/api";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -15,21 +15,37 @@ export default function PortfolioPage() {
     "Institutional",
   ];
 
+  const [projectCards, setProjectCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    async function loadProjects() {
+      try {
+        const data = await fetchProjects();
+        setProjectCards(data);
+      } catch (error) {
+        console.error("Error loading projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadProjects();
+  }, []);
 
   const filteredProjects =
     activeCategory === "All"
       ? projectCards
       : projectCards.filter((project) => project.category === activeCategory);
-  // 2. Slice filtered projects based on visibleCount
+
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMoreProjects = visibleCount < filteredProjects.length;
   const canToggleProjects = filteredProjects.length > ITEMS_PER_PAGE;
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
-    setVisibleCount(ITEMS_PER_PAGE); // Reset pagination when switching tabs
+    setVisibleCount(ITEMS_PER_PAGE);
   };
 
   const handleLoadMore = () => {
@@ -39,10 +55,11 @@ export default function PortfolioPage() {
   const handleLoadBack = () => {
     setVisibleCount(ITEMS_PER_PAGE);
   };
+
   return (
-    <div className="">
+    <div>
       {/* header */}
-      <div className="">
+      <div>
         <section
           aria-labelledby="about-title"
           className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#283c32] text-white"
@@ -60,9 +77,10 @@ export default function PortfolioPage() {
             >
               Portfolio
             </h1>
-            <span aria-hidden="true" className="mt-5 h-1 w-20  bg-white" />
+            <span aria-hidden="true" className="mt-5 h-1 w-20 bg-white" />
           </div>
         </section>
+
         {/* Our Project */}
         <section className="bg-[#f5f3ed] px-5 py-16 sm:px-7 sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto w-full max-w-7xl">
@@ -74,7 +92,7 @@ export default function PortfolioPage() {
                 </h2>
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:justify-end sm:gap-x-6">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6 md:justify-end">
                 {CATEGORIES.map((category) => {
                   const isActive = activeCategory === category;
                   return (
@@ -98,8 +116,12 @@ export default function PortfolioPage() {
               </div>
             </div>
 
-            {/* Second Row: 2-Column Project Cards Grid */}
-            {filteredProjects.length > 0 ? (
+            {/* Second Row: Loading State or 2-Column Project Cards Grid */}
+            {isLoading ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="h-10 w-10 animate-spin text-[#bc2525]" />
+              </div>
+            ) : filteredProjects.length > 0 ? (
               <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2">
                 <AnimatePresence initial={false} mode="sync">
                   {visibleProjects.map((project, index) => (
@@ -130,7 +152,7 @@ export default function PortfolioPage() {
                       </div>
 
                       {/* Card Footer */}
-                      <div                       className="flex flex-col items-start justify-between gap-2 min-[430px]:flex-row min-[430px]:gap-4">
+                      <div className="flex flex-col items-start justify-between gap-2 min-[430px]:flex-row min-[430px]:gap-4">
                         <div>
                           <p className="text-[10px] font-medium tracking-[0.14em] text-[#bc2525] uppercase">
                             {project.category}
@@ -160,7 +182,7 @@ export default function PortfolioPage() {
             )}
 
             {/* Bottom Button: Load More Projects */}
-            {canToggleProjects && (
+            {!isLoading && canToggleProjects && (
               <div className="mt-16 flex justify-center">
                 <motion.button
                   type="button"

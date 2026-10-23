@@ -10,45 +10,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-
-function BrandLogo({ className = "" }) {
-  return (
-    <span className={`flex items-center gap-3 ${className}`}>
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 48 48"
-        fill="none"
-        className="size-10 shrink-0 text-[#d4af72]"
-      >
-        <path
-          d="M5 21.5 24 7l19 14.5M10 19v22h28V19M18 41V27h12v14M16 22h.01M32 22h.01"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path d="M5 43h38" stroke="currentColor" strokeWidth="2" />
-      </svg>
-      <span className="font-sans text-sm font-semibold tracking-[-0.03em] text-current sm:text-base">
-        Schneitec
-        <span className="text-[#d4af72]"> Property</span>
-      </span>
-    </span>
-  );
-}
+import { fetchSettings } from "../../lib/api";
 
 export default function HeaderFooter() {
   const location = useLocation();
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [settings, setSettings] = useState(null);
+  
   const previousScrollY = useRef(0);
   const menuButtonRef = useRef(null);
   const menuPanelRef = useRef(null);
+
   const discoverItems = [
     { label: "Destinations", to: "/destinations" },
     { label: "Offers", to: "/offers" },
     { label: "Experiences", to: "/experience" },
   ];
+  
   const navItems = [
     { label: "Home", to: "/" },
     { label: "Discover", items: discoverItems },
@@ -59,10 +38,25 @@ export default function HeaderFooter() {
     { label: "Contact Us", to: "/contact" },
   ];
 
+  // Fetch Live Site Settings
+  useEffect(() => {
+    let ignore = false;
+    async function loadSettings() {
+      try {
+        const data = await fetchSettings();
+        if (!ignore) setSettings(data);
+      } catch (error) {
+        console.error("Failed to load settings:", error);
+      }
+    }
+    loadSettings();
+    return () => { ignore = true; };
+  }, []);
+
+  // Scroll Header Logic
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY <= 80) {
         setIsHeaderHidden(false);
       } else if (currentScrollY > previousScrollY.current) {
@@ -70,7 +64,6 @@ export default function HeaderFooter() {
       } else if (currentScrollY < previousScrollY.current) {
         setIsHeaderHidden(false);
       }
-
       previousScrollY.current = currentScrollY;
     };
 
@@ -79,9 +72,9 @@ export default function HeaderFooter() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Accessibility for Mobile Menu
   useEffect(() => {
     if (!isMenuOpen) return undefined;
-
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     menuPanelRef.current?.querySelector("button, a[href]")?.focus();
@@ -92,11 +85,10 @@ export default function HeaderFooter() {
         menuButtonRef.current?.focus();
         return;
       }
-
       if (event.key !== "Tab") return;
 
       const focusableElements = menuPanelRef.current?.querySelectorAll(
-        'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+        'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
       );
       if (!focusableElements?.length) return;
 
@@ -127,8 +119,7 @@ export default function HeaderFooter() {
   const isCurrentPage = (item) =>
     location.pathname === item.to ||
     (item.to !== "/" && location.pathname.startsWith(`${item.to}/`)) ||
-    (item.label === "Portfolio" &&
-      location.pathname.startsWith("/projects/"));
+    (item.label === "Portfolio" && location.pathname.startsWith("/projects/"));
 
   return (
     <div className="flex min-h-screen flex-col bg-[#f5f3ed] font-sans text-[#18392f]">
@@ -142,12 +133,19 @@ export default function HeaderFooter() {
           aria-label="Main navigation"
           className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-7 lg:px-10"
         >
+          {/* Brand Logo */}
           <Link
             to="/"
-            aria-label="Schneitec Property home"
-            className="group w-fit text-white transition-colors hover:text-white/80 focus-visible:outline-none"
+            className="group flex w-fit items-center gap-4 focus-visible:outline-none"
           >
-            <BrandLogo />
+            <div className="flex size-10 items-center justify-center border border-[#a8894c]/60 bg-black/20 backdrop-blur-xs transition-colors group-hover:border-[#d4af37]">
+              <span className="font-serif text-sm font-normal text-[#a8894c] transition-colors group-hover:text-[#d4af37]">
+                S
+              </span>
+            </div>
+            <span className="font-sans text-xs font-normal tracking-[0.22em] text-white/85 uppercase transition-colors group-hover:text-white sm:text-sm">
+              Schneitec Property
+            </span>
           </Link>
 
           {/* Navigation Links + Language Selector */}
@@ -159,7 +157,6 @@ export default function HeaderFooter() {
 
                 if (item.items) {
                   const isDiscoverActive = item.items.some(isCurrentPage);
-
                   return (
                     <DropdownMenu key={item.label}>
                       <DropdownMenuTrigger
@@ -205,15 +202,15 @@ export default function HeaderFooter() {
             <div className="hidden items-center gap-4 xl:flex">
               <button
                 type="button"
-                className="flex items-center gap-2 text-xs font-normal tracking-[0.12em] text-white/80 uppercase transition-colors hover:text-white"
+                className="flex cursor-pointer items-center gap-2 text-xs font-normal tracking-[0.12em] text-white/80 uppercase transition-colors hover:text-white"
               >
                 <img
                   src="https://flagcdn.com/w20/us.png"
                   alt="US Flag"
                   className="h-3 w-4.5 object-cover opacity-90"
-                /                >
-                  <span>English</span>
-                </button>
+                />
+                <span>English</span>
+              </button>
             </div>
 
             <button
@@ -225,7 +222,7 @@ export default function HeaderFooter() {
               aria-expanded={isMenuOpen}
               aria-controls="site-navigation-panel"
               onClick={() => setIsMenuOpen((open) => !open)}
-              className="grid size-11 place-items-center border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white xl:hidden"
+              className="grid size-11 cursor-pointer place-items-center border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white xl:hidden"
             >
               {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -272,7 +269,7 @@ export default function HeaderFooter() {
                   type="button"
                   aria-label="Close navigation menu"
                   onClick={closeMenu}
-                  className="grid size-11 place-items-center border border-white/20 text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                  className="grid size-11 cursor-pointer place-items-center border border-white/20 text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
                   <X size={18} />
                 </button>
@@ -293,7 +290,6 @@ export default function HeaderFooter() {
                           <ul className="m-0 list-none p-0">
                             {item.items.map((child) => {
                               const isChildCurrent = isCurrentPage(child);
-
                               return (
                                 <li key={child.label}>
                                   <Link
@@ -319,7 +315,6 @@ export default function HeaderFooter() {
                     }
 
                     const isItemCurrent = isCurrentPage(item);
-
                     return (
                       <li key={item.label} className="border-b border-white/10">
                         <Link
@@ -342,12 +337,12 @@ export default function HeaderFooter() {
               </nav>
 
               <a
-                href="mailto:hello@hearthandhome.com"
+                href={`mailto:${settings?.contact_email || "hello@schneitecproperty.com"}`}
                 className="mt-auto border-t border-white/15 pt-6 text-sm text-white/65 transition-colors hover:text-white"
               >
                 Start a conversation
                 <span className="mt-1 block text-xs text-white/45">
-                  hello@hearthandhome.com
+                  {settings?.contact_email || "hello@schneitecproperty.com"}
                 </span>
               </a>
             </motion.aside>
@@ -372,11 +367,10 @@ export default function HeaderFooter() {
           {/* Column 1: Brand */}
           <div className="max-w-xs">
             <Link
-              aria-label="Schneitec Property home"
-              className="inline-flex text-[#18392f] transition-colors hover:text-[#bc2525]"
+              className="font-serif text-2xl font-semibold text-[#18392f] transition-colors hover:text-[#bc2525]"
               to="/"
             >
-              <BrandLogo />
+              Schneitec Property
             </Link>
             <p className="mt-4 leading-relaxed text-[#56645b]">
               Curating unparalleled luxury experiences and unforgettable stays
@@ -389,77 +383,35 @@ export default function HeaderFooter() {
             <h2 className="text-lg font-semibold text-[#18392f]">Discover</h2>
             <ul className="mt-4 space-y-3 text-[#56645b]">
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/destinations"
-                >
-                  Destinations
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/destinations">Destinations</Link>
               </li>
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/offers"
-                >
-                  Offers &amp; Packages
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/offers">Offers &amp; Packages</Link>
               </li>
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/experience"
-                >
-                  Brand Experiences
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/experience">Brand Experiences</Link>
               </li>
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/about"
-                >
-                  Our Story
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/about">Our Story</Link>
               </li>
             </ul>
           </div>
 
           {/* Column 3: Legal & Support */}
           <div>
-            <h2 className="text-lg font-semibold text-[#18392f]">
-              Support &amp; Legal
-            </h2>
+            <h2 className="text-lg font-semibold text-[#18392f]">Support &amp; Legal</h2>
             <ul className="mt-4 space-y-3 text-[#56645b]">
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/feedback"
-                >
-                  Guest Feedback
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/feedback">Guest Feedback</Link>
               </li>
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/terms"
-                >
-                  Terms &amp; Conditions
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/terms">Terms &amp; Conditions</Link>
               </li>
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/career"
-                >
-                  Careers
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/career">Careers</Link>
               </li>
               <li>
-                <Link
-                  className="transition-colors hover:text-[#bc2525]"
-                  to="/media"
-                >
-                  Media &amp; News
-                </Link>
+                <Link className="transition-colors hover:text-[#bc2525]" to="/media">Media &amp; News</Link>
               </li>
             </ul>
           </div>
@@ -468,40 +420,37 @@ export default function HeaderFooter() {
           <div>
             <h2 className="text-lg font-semibold text-[#18392f]">Contact Us</h2>
             <div className="mt-4 space-y-2 text-[#56645b]">
-              <p>Street 132, Toul Kork, Phnom Penh</p>
+              <p>{settings?.contact_address || "Street 132, Toul Kork, Phnom Penh"}</p>
               <a
                 className="block transition-colors hover:text-[#bc2525]"
-                href="mailto:reservations@hearthandhome.com"
+                href={`mailto:${settings?.contact_email || "hello@schneitecproperty.com"}`}
               >
-                reservations@hearthandhome.com
+                {settings?.contact_email || "hello@schneitecproperty.com"}
               </a>
               <a
                 className="block transition-colors hover:text-[#bc2525]"
-                href="tel:+855966233546"
+                href={`tel:${settings?.contact_phone?.replace(/\s+/g, "") || "+855966233546"}`}
               >
-                +855 966 233 546
+                {settings?.contact_phone || "+855 966 233 546"}
               </a>
             </div>
 
             <div className="mt-6 flex items-center gap-4 text-xl">
-              <a
-                href="#facebook"
-                className="text-neutral-400 transition-colors hover:text-[#bc2525]"
-              >
-                <FaFacebook />
-              </a>
-              <a
-                href="#linkedin"
-                className="text-neutral-400 transition-colors hover:text-[#bc2525]"
-              >
-                <FaLinkedin />
-              </a>
-              <a
-                href="#telegram"
-                className="text-neutral-400 transition-colors hover:text-[#bc2525]"
-              >
-                <FaTelegram />
-              </a>
+              {settings?.facebook_url && (
+                <a href={settings.facebook_url} target="_blank" rel="noreferrer" className="text-neutral-400 transition-colors hover:text-[#bc2525]">
+                  <FaFacebook />
+                </a>
+              )}
+              {settings?.linkedin_url && (
+                <a href={settings.linkedin_url} target="_blank" rel="noreferrer" className="text-neutral-400 transition-colors hover:text-[#bc2525]">
+                  <FaLinkedin />
+                </a>
+              )}
+              {settings?.telegram_url && (
+                <a href={settings.telegram_url} target="_blank" rel="noreferrer" className="text-neutral-400 transition-colors hover:text-[#bc2525]">
+                  <FaTelegram />
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -510,12 +459,11 @@ export default function HeaderFooter() {
         <div className="border-t border-[#18392f]/10">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 py-6 text-xs text-[#6b756e] sm:flex-row sm:items-center sm:justify-between">
             <span>
-              &copy; {new Date().getFullYear()} Schneitec Property.
-              All rights reserved.
+              &copy; {new Date().getFullYear()} Schneitec Property. All rights reserved.
             </span>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="transition-colors cursor-pointer hover:text-[#bc2525]"
+              className="cursor-pointer transition-colors hover:text-[#bc2525]"
             >
               Back to top
             </button>

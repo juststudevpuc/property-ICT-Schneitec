@@ -1,17 +1,35 @@
 import { ArrowDownRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { hotels } from "../lib/hotels";
+import { fetchProperties } from "../lib/api";
 
 const categories = ["All Destinations", "City Center", "Resort"];
 
 export default function DestinationsPage() {
   const [activeCategory, setActiveCategory] = useState("All Destinations");
+  const [properties, setProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProperties() {
+      try {
+        const data = await fetchProperties();
+        setProperties(data);
+      } catch (error) {
+        console.error("Error loading properties:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadProperties();
+  }, []);
+
   const filteredHotels =
     activeCategory === "All Destinations"
-      ? hotels
-      : hotels.filter((hotel) => hotel.category === activeCategory);
+      ? properties
+      : properties.filter((hotel) => hotel.category === activeCategory);
 
   return (
     <main className="bg-[#f5f3ed] text-[#18392f]">
@@ -66,8 +84,17 @@ export default function DestinationsPage() {
 
           {/* Hotel Grid */}
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:gap-x-12 lg:gap-y-16">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {filteredHotels.map((hotel, index) => (
+            {isLoading ? (
+              <p className="col-span-full py-12 text-center text-sm text-[#56645b]" role="status">
+                Loading destinations...
+              </p>
+            ) : filteredHotels.length === 0 ? (
+              <p className="col-span-full py-12 text-center text-sm text-[#56645b]">
+                No destinations found.
+              </p>
+            ) : (
+              <AnimatePresence mode="popLayout" initial={false}>
+                {filteredHotels.map((hotel, index) => (
                 <motion.article
                   key={hotel.id}
                   layout
@@ -113,8 +140,9 @@ export default function DestinationsPage() {
                     Discover More <ArrowDownRight size={14} />
                   </Link>
                 </motion.article>
-              ))}
-            </AnimatePresence>
+                ))}
+              </AnimatePresence>
+            )}
           </div>
         </div>
       </section>

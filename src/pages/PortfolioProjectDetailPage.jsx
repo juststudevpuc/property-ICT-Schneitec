@@ -1,11 +1,36 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { projects } from "../lib/projects";
+import { fetchProject } from "../lib/api";
 
 export default function PortfolioProjectDetailPage() {
   const { projectId } = useParams();
-  const project = projects.find((item) => item.id === Number(projectId));
+  const [project, setProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProject() {
+      try {
+        setIsLoading(true);
+        const data = await fetchProject(projectId);
+        setProject(data);
+      } catch (error) {
+        console.error("Error loading project details:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadProject();
+  }, [projectId]);
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-[70svh] items-center justify-center bg-[#f5f3ed]">
+        <Loader2 className="h-10 w-10 animate-spin text-[#bc2525]" />
+      </main>
+    );
+  }
 
   if (!project) {
     return (
@@ -70,7 +95,7 @@ export default function PortfolioProjectDetailPage() {
               Project Highlights
             </h3>
             <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-              {project.highlights.map((highlight) => (
+              {project.highlights?.map((highlight) => (
                 <li
                   key={highlight}
                   className="flex items-start gap-3 text-sm leading-6 text-[#56645b]"
@@ -87,9 +112,9 @@ export default function PortfolioProjectDetailPage() {
               Project Gallery
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
-              {project.gallery.map((image, index) => (
+              {project.gallery?.map((image, index) => (
                 <figure
-                  key={image.label}
+                  key={image.label || index}
                   className={`overflow-hidden bg-neutral-200 ${
                     index === 0 ? "sm:col-span-2" : ""
                   }`}

@@ -1,16 +1,33 @@
-import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { newsArticles } from "../lib/newsArticles";
+import { fetchNews } from "../lib/api";
 
 const categories = ["All news", "Projects", "Insights", "Awards", "Studio"];
 
 export default function NewsArchivePage() {
+  const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All news");
+
+  useEffect(() => {
+    async function loadNews() {
+      try {
+        const data = await fetchNews();
+        setArticles(data);
+      } catch (error) {
+        console.error("Error loading news archive:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadNews();
+  }, []);
+
   const filteredArticles =
     activeCategory === "All news"
-      ? newsArticles
-      : newsArticles.filter((article) => article.category === activeCategory);
+      ? articles
+      : articles.filter((article) => article.category === activeCategory);
   const [featuredArticle, ...remainingArticles] = filteredArticles;
 
   return (
@@ -54,7 +71,7 @@ export default function NewsArchivePage() {
                   type="button"
                   aria-pressed={isActive}
                   onClick={() => setActiveCategory(category)}
-                  className={`min-h-11 border-b-2 px-1 pb-3 text-sm transition-colors ${
+                  className={`min-h-11 cursor-pointer border-b-2 px-1 pb-3 text-sm transition-colors ${
                     isActive
                       ? "border-[#bc2525] font-medium text-[#18392f]"
                       : "border-transparent text-[#777d73] hover:text-[#18392f]"
@@ -66,7 +83,11 @@ export default function NewsArchivePage() {
             })}
           </div>
 
-          {featuredArticle ? (
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="h-10 w-10 animate-spin text-[#bc2525]" />
+            </div>
+          ) : featuredArticle ? (
             <>
               <article className="grid grid-cols-1 items-center gap-7 border-b border-[#18392f]/15 pb-10 md:grid-cols-2 md:gap-10 md:pb-14">
                 <div className="aspect-16/10 overflow-hidden bg-[#dddcd4]">

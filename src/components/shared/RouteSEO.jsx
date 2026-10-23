@@ -1,13 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { hotels } from "../../lib/hotels";
-import { projects } from "../../lib/projects";
 import SEO from "./SEO";
 
-const SITE_URL = "https://schneitecproperty.vercel.app";
+const SITE_URL = "https://schneitec-property.ictcenter.blog";
 
 const pageMetadata = {
   "/": {
-    title: "Luxury Homes & Architectural Design in Cambodia",
+    title: "Luxury Hotels & Architectural Design in Cambodia",
     description:
       "Explore Schneitec Property's Cambodia property collection and architecture-led approach to thoughtful, timeless residential design.",
   },
@@ -68,48 +66,19 @@ const pageMetadata = {
   },
 };
 
-function getPageMetadata(pathname) {
-  if (pageMetadata[pathname]) return pageMetadata[pathname];
-
-  const hotelMatch = pathname.match(/^\/destinations\/([^/]+)$/);
-  if (hotelMatch) {
-    const hotel = hotels.find((item) => item.id === Number(hotelMatch[1]));
-    if (hotel) {
-      return {
-        title: `${hotel.name} - Property in ${hotel.location}`,
-        description: `${hotel.overview} Explore rooms, amenities, and property details at ${hotel.name}.`,
-      };
-    }
-  }
-
-  const projectMatch = pathname.match(/^\/projects\/([^/]+)$/);
-  if (projectMatch) {
-    const project = projects.find(
-      (item) => item.id === Number(projectMatch[1]),
-    );
-    if (project) {
-      return {
-        title: `${project.title} - ${project.category} Architecture`,
-        description: `${project.overview} Discover the design approach and architectural highlights of this Schneitec Property ${project.category.toLowerCase()} project.`,
-      };
-    }
-  }
-
-  return {
-    title: "Property & Architecture Design",
-    description:
-      "Discover the Schneitec Property portfolio and architecture, with thoughtful residential design and distinctive places to stay.",
-  };
-}
-
 export default function RouteSEO() {
   const { pathname } = useLocation();
-  const { title, description } = getPageMetadata(pathname);
+  
+  // Default to general studio metadata for dynamic detail routes
+  const metadata = pageMetadata[pathname] || {
+    title: "Property & Architecture Design",
+    description: "Discover Schneitec Property developments and architecture, featuring thoughtful design and distinctive places to stay.",
+  };
 
   return (
     <SEO
-      title={title}
-      description={description}
+      title={metadata.title}
+      description={metadata.description}
       url={`${SITE_URL}${pathname}`}
     />
   );

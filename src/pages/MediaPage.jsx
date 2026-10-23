@@ -1,8 +1,26 @@
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { newsArticles } from "../lib/newsArticles";
+import { fetchNews } from "../lib/api";
 
 export default function MediaPage() {
+  const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadNews() {
+      try {
+        const data = await fetchNews();
+        setArticles(data);
+      } catch (error) {
+        console.error("Error loading news:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadNews();
+  }, []);
+
   const FEATURED_PUBLICATIONS = [
     {
       id: 1,
@@ -51,8 +69,9 @@ export default function MediaPage() {
       subtitle: "Desert Mirage Museum, Dubai",
     },
   ];
+
   return (
-    <div className="">
+    <div>
       {/* header */}
       <section
         aria-labelledby="about-title"
@@ -73,11 +92,11 @@ export default function MediaPage() {
           </h1>
           <span aria-hidden="true" className="font-normal">
             A glimpse into the latest developments, insights, and media{" "}
-            milestones from LEGO Architectural Studio.
+            milestones from Schneitec Property.
           </span>
         </div>
       </section>
-      {/*  */}
+
       {/* Top Section: Latest News & Press */}
       <section className="bg-white px-5 py-16 sm:px-7 sm:py-20 lg:px-10 lg:py-24">
         <div className="mx-auto w-full max-w-7xl">
@@ -101,35 +120,41 @@ export default function MediaPage() {
           </div>
 
           {/* 3-Column News Articles Grid */}
-          <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
-            {newsArticles.slice(0, 3).map((article) => (
-              <article key={article.id} className="group flex flex-col">
-                <a
-                  href={article.link}
-                  className="mb-5 block aspect-square w-full overflow-hidden bg-neutral-100"
-                >
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </a>
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-[#bc2525]" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
+              {articles.slice(0, 3).map((article) => (
+                <article key={article.id} className="group flex flex-col">
+                  <Link
+                    to="/media/news"
+                    className="mb-5 block aspect-square w-full overflow-hidden bg-neutral-100"
+                  >
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </Link>
 
-                <time className="text-[10px] font-medium tracking-[0.12em] text-neutral-400 uppercase">
-                  {article.date}
-                </time>
+                  <time className="text-[10px] font-medium tracking-[0.12em] text-neutral-400 uppercase">
+                    {article.date}
+                  </time>
 
-                <h3 className="mt-2 text-lg leading-snug font-normal text-neutral-900 transition-colors group-hover:text-[#bc2525]">
-                  <a href={article.link}>{article.title}</a>
-                </h3>
+                  <h3 className="mt-2 text-lg leading-snug font-normal text-neutral-900 transition-colors group-hover:text-[#bc2525]">
+                    <Link to="/media/news">{article.title}</Link>
+                  </h3>
 
-                <p className="mt-2.5 line-clamp-2 text-xs leading-relaxed text-neutral-500">
-                  {article.excerpt}
-                </p>
-              </article>
-            ))}
-          </div>
+                  <p className="mt-2.5 line-clamp-2 text-xs leading-relaxed text-neutral-500">
+                    {article.excerpt}
+                  </p>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -152,6 +177,7 @@ export default function MediaPage() {
           </div>
         </div>
       </section>
+
       {/* Recent Awards & Media Kit */}
       <section className="bg-white px-5 py-16 sm:px-7 sm:py-20 lg:px-10 lg:py-24">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-16">
@@ -204,13 +230,13 @@ export default function MediaPage() {
                 <ArrowDown className="h-3.5 w-3.5" />
               </a>
 
-              <a
-                href="#press-archive"
+              <Link
+                to="/media/news"
                 className="flex w-full items-center justify-between border border-neutral-400 bg-transparent px-5 py-3.5 text-[10px] font-medium tracking-[0.14em] text-neutral-900 uppercase transition-colors hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
               >
                 <span>PRESS RELEASE ARCHIVE</span>
                 <ArrowRight className="h-3.5 w-3.5" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -235,10 +261,10 @@ export default function MediaPage() {
           </div>
 
           <a
-            href="mailto:press@legoarch.com"
+            href="mailto:press@schneitecproperty.com"
             className="mt-8 inline-block border-b border-neutral-500 pb-1 text-base font-normal text-white transition-colors hover:border-white hover:text-neutral-300"
           >
-            press@legoarch.com
+            press@schneitecproperty.com
           </a>
         </div>
       </section>
